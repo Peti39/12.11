@@ -14,7 +14,7 @@ export class ToysService {
   constructor (private readonly db: PrismaService) {}
   create(createToyDto: CreateToyDto) {
     return this.db.toy.create({
-      data: createToyDto
+      data: {name: createToyDto.name, material: createToyDto.material, wheight: createToyDto.weight},
     })
   }
 
@@ -36,16 +36,33 @@ export class ToysService {
   }
 
   async update(id: number, updateToyDto: UpdateToyDto) {
-    const updater = await this.db.toy.update({
+    const finder = await this.db.toy.findUnique({
       where: {
         id: id,
       },
-      data: updateToyDto,
     });
-    if (!updater) {
+    if (!finder) {
+      //console.log('Toy not found');
       throw new Error(`Toy with id ${id} not found`);
     }
-    return updater; 
+    try{
+      const updater = await this.db.toy.update({
+        where: {
+          id: id,
+        },
+        data: {
+          name: updateToyDto.name ? updateToyDto.name : undefined,
+          material: updateToyDto.material ? updateToyDto.material : undefined,
+          wheight: updateToyDto.weight? updateToyDto.weight : undefined,
+        },
+      });
+      if (!updater) {
+        throw new Error(`Toy with id ${id} not found`);
+      }
+      return updater; 
+    } catch (error) {
+      throw new Error(`${error}`);
+    }
   }
 
   async remove(id: number) {

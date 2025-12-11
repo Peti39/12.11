@@ -35,9 +35,9 @@ export class ToysController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateToyDto: UpdateToyDto) {
-     try {
-    return this.toysService.update(+id, updateToyDto);
+  async update(@Param('id') id: string, @Body() updateToyDto: UpdateToyDto) {
+    try {
+    return await this.toysService.update(+id, updateToyDto);
     } catch (error) {
       throw new HttpException({error: `Toy with id ${id} not found. Error:${error}`}, 404);
     }

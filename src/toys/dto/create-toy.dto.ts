@@ -14,5 +14,5 @@ export class CreateToyDto {
   @IsNumber()
   @Min(0.1)
 
-  wheight: number;
+  weight: number;
 }
