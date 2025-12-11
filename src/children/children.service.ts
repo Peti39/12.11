@@ -10,8 +10,28 @@ import { PrismaService } from 'src/prisma.service';
 @Injectable()
 export class ChildrenService {
   constructor(private readonly db:PrismaService) {}
-  assignToyToChild(kidId: number, toyId: number) {
-    const assignment = this.db.kid.update({
+  async assignToyToChild(kidId: number, toyId: number) {
+    const kidfinder = await this.db.kid.findUnique({
+      where: {
+        id: kidId,
+      },
+    });
+    if (!kidfinder) {
+      //console.log('Toy not found');
+      throw new Error(`Kid with id ${kidId} not found`);
+    }
+    const toyfinder = await this.db.toy.findUnique({
+      where: {
+        id: toyId,
+      },
+    });
+    if (!toyfinder) {
+      //console.log('Toy not found');
+      throw new Error(`Toy with id ${toyId} not found`);
+    }
+
+
+    const assignment = await this.db.kid.update({
       where: {
         id: kidId,
       },
@@ -25,8 +45,28 @@ export class ChildrenService {
     return assignment;
   }
 
-  deassignToyToChild(kidId: number, toyId: number) {
-    const deassignment = this.db.kid.update({
+  async deassignToyToChild(kidId: number, toyId: number) {
+
+    const kidfinder = await this.db.kid.findUnique({
+      where: {
+        id: kidId,
+      },
+    });
+    if (!kidfinder) {
+      //console.log('Toy not found');
+      throw new Error(`Kid with id ${kidId} not found`);
+    }
+    const toyfinder = await this.db.toy.findUnique({
+      where: {
+        id: toyId,
+      },
+    });
+    if (!toyfinder) {
+      //console.log('Toy not found');
+      throw new Error(`Toy with id ${toyId} not found`);
+    }
+
+    const deassignment = await this.db.kid.update({
       where: {
         id: kidId,
       },

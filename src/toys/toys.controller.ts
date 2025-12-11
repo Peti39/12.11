@@ -44,9 +44,9 @@ export class ToysController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string) {
      try {
-    return this.toysService.remove(+id);
+    return await this.toysService.remove(+id);
     } catch (error) {
       throw new HttpException({error: `Toy with id ${id} not found. Error:${error}`}, 404);
     }

@@ -19,45 +19,45 @@ export class ChildrenController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string) {
     try {
-    return this.childrenService.findOne(+id);
+    return await this.childrenService.findOne(+id);
     } catch (error) {
           throw new HttpException({error: `Kid with id ${id} not found. Error:${error}`}, 404);
     }
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateChildDto: UpdateChildDto) {
+  async update(@Param('id') id: string, @Body() updateChildDto: UpdateChildDto) {
     try {
-    return this.childrenService.update(+id, updateChildDto);
+    return await this.childrenService.update(+id, updateChildDto);
     } catch (error) {
           throw new HttpException({error: `Kid with id ${id} not found. Error:${error}`}, 404);
     }
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string) {
     try {
-    return this.childrenService.remove(+id);
+    return await this.childrenService.remove(+id);
     } catch (error) {
           throw new HttpException({error: `Kid with id ${id} not found. Error:${error}`}, 404);
     }
   }
 
   @Put(':id/toys/:toyId')
-  assignToyToChild(@Param('id') id: string, @Param('toyId') toyId: string) {
+  async assignToyToChild(@Param('id') id: string, @Param('toyId') toyId: string) {
     try {
-      return this.childrenService.assignToyToChild(+id, +toyId);
+      return await this.childrenService.assignToyToChild(+id, +toyId);
     } catch (error) {
       throw new HttpException({error: `Error assigning toy with id ${toyId} to kid with id ${id}. Error:${error}`}, 404);
     }
   }
 
   @Delete(':id/toys/:toyId')
-  deassignToyToChild(@Param('id') id: string, @Param('toyId') toyId: string) {
+  async deassignToyToChild(@Param('id') id: string, @Param('toyId') toyId: string) {
     try {
-      return this.childrenService.deassignToyToChild(+id, +toyId);
+      return await this.childrenService.deassignToyToChild(+id, +toyId);
     } catch (error) {
       throw new HttpException({error: `Error deassigning toy with id ${toyId} to kid with id ${id}. Error:${error}`}, 404);
     }
